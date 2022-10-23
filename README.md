@@ -23,7 +23,7 @@ Also, Apple layout is largely untested, because we cannot include Apple fonts fo
 harfbuzz uses macOS CI instances to test it, which is extremely painful
 and we do not do this for now.
 
-## Major changes
+## Major changes from harfbuzz
 
 - Subsetting removed.
 - TrueType parsing is completely handled by the
@@ -55,7 +55,8 @@ harfbuzz can roughly be split into 6 parts: shaping, subsetting, TrueType parsin
 Unicode routines, custom containers and utilities (harfbuzz doesn't use C++ std)
 and glue for system/3rd party libraries. In the mean time, rustybuzz contains only shaping.
 All of the TrueType parsing was moved to the [ttf-parser](https://github.com/RazrFalcon/ttf-parser).
-Subsetting was removed. Unicode code was mostly moved to external crates.
+Subsetting (creating derived fonts with subsets of glyphs) was removed, which makes up more than a third of harfbuzz' codebase.
+Unicode code was mostly moved to external crates.
 We don't need custom containers because Rust's std is good enough.
 And we do not use any non Rust libraries, so no glue code either.
 
@@ -96,7 +97,7 @@ But except that, there are no `unsafe` in this library and in most of its depend
 
 - [harfbuzz_rs](https://crates.io/crates/harfbuzz_rs) - bindings to the actual harfbuzz library.
   As of v2 doesn't expose subsetting and glyph outlining, which harfbuzz supports.
-- [allsorts](https://github.com/yeslogic/allsorts) - shaper and subsetter.
+- [allsorts](https://github.com/yeslogic/allsorts) - shaper and (basic) subsetter.
   As of v0.6 doesn't support variable fonts and
   [Apple Advanced Typography](https://developer.apple.com/fonts/TrueType-Reference-Manual/RM06/Chap6AATIntro.html).
   Relies on some unsafe code.
